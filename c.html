@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venya's World 📚</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Sacramento&family=Quicksand:wght@300;400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #f8f3ff;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .book-corner {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            z-index: 0;
+            opacity: 0.5;
+        }
+        
+        .top-left {
+            top: 0;
+            left: 0;
+            border-top: 100px solid #d6b4ff;
+            border-right: 100px solid transparent;
+        }
+        
+        .top-right {
+            top: 0;
+            right: 0;
+            border-top: 100px solid #ffb4e6;
+            border-left: 100px solid transparent;
+        }
+        
+        .bottom-left {
+            bottom: 0;
+            left: 0;
+            border-bottom: 100px solid #b4c8ff;
+            border-right: 100px solid transparent;
+        }
+        
+        .bottom-right {
+            bottom: 0;
+            right: 0;
+            border-bottom: 100px solid #c4b4ff;
+            border-left: 100px solid transparent;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-family: 'Sacramento', cursive;
+            font-size: 3.5rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 300;
+            font-size: 1.2rem;
+            color: #fff;
+        }
+        
+        nav {
+            background-color: #fff;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .nav-link {
+            display: inline-block;
+            margin: 0 1rem;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            color: #6c5ce7;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background-color: #f3e8ff;
+            transform: translateY(-2px);
+        }
+        
+        .nav-link i {
+            margin-right: 8px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+        
+        section {
+            margin: 3rem 0;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        #home {
+            background: linear-gradient(to right, #f6e6ff, #fff9fc);
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        
+        #about {
+            background: linear-gradient(to right, #e8f5ff, #f0f8ff);
+        }
+        
+        #education {
+            background: linear-gradient(to right, #fff0f7, #fff6fa);
+        }
+        
+        #skills {
+            background: linear-gradient(to right, #f0e6ff, #f5f0ff);
+        }
+        
+        #analysis {
+            background: linear-gradient(to right, #e6f9ff, #f0fcff);
+        }
+        
+        h2 {
+            font-family: 'Lora', serif;
+            color: #6c5ce7;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h2::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, #ff6b81, #6c5ce7);
+            border-radius: 3px;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .profile-container {
+            display: flex;
+            align-items: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-right: 2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .slideshow-container {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            margin: 2rem auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .slideshow-slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            object-fit: cover;
+        }
+        
+        .slideshow-slide.active {
+            opacity: 1;
+        }
+        
+        .education-item {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .education-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .education-date {
+            font-weight: bold;
+            color: #6c5ce7;
+        }
+        
+        .skill-category {
+            margin-bottom: 2rem;
+        }
+        
+        .skill-title {
+            font-family: 'Lora', serif;
+            color: #6c5ce7;
+            margin-bottom: 1rem;
+        }
+        
+        .skill-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .skill-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .skill-level {
+            margin-left: auto;
+            height: 10px;
+            width: 100px;
+            background-color: #e2e2e2;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(to right, #6c5ce7, #ff6b81);
+        }
+        
+        .cv-button {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(to right, #6c5ce7, #a179dc);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(108, 92, 231, 0.3);
+        }
+        
+        .cv-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(108, 92, 231, 0.4);
+        }
+        
+        .icon {
+            margin-right: 10px;
+        }
+        
+        .cute-emoji {
+            font-size: 1.5rem;
+            vertical-align: middle;
+            margin: 0 5px;
+        }
+        
+        .text-analysis-container {
+            margin-top: 2rem;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 1rem;
+            border: 2px solid #e2e2e2;
+            border-radius: 10px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #6c5ce7;
+        }
+        
+        .analyze-button {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(to right, #6c5ce7, #a179dc);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(108, 92, 231, 0.3);
+        }
+        
+        .analyze-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(108, 92, 231, 0.4);
+        }
+        
+        .results-container {
+            margin-top: 2rem;
+        }
+        
+        .result-section {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .result-title {
+            font-family: 'Lora', serif;
+            color: #6c5ce7;
+            margin-bottom: 1rem;
+        }
+        
+        .result-content {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, #8ec5fc 0%, #e0c3fc 100%);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .float-animation {
+            animation: float 5s ease-in-out infinite;
+        }
+        
+        /* Book decorations */
+        .book-decoration {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.2;
+            z-index: 0;
+            color: #6c5ce7;
+        }
+        
+        #welcome-message {
+            font-family: 'Sacramento', cursive;
+            font-size: 3rem;
+            color: #6c5ce7;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .welcome-emoji {
+            font-size: 4rem;
+            margin: 1rem;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .welcome-btn {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(to right, #6c5ce7, #ff6b81);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(108, 92, 231, 0.3);
+        }
+        
+        .welcome-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(108, 92, 231, 0.4);
+        }
+        
+        /* For the book decoration in corners */
+        .book-stack {
+            position: absolute;
+            width: 100px;
+            height: 120px;
+            opacity: 0.2;
+        }
+        
+        .book-stack.top-left {
+            top: 20px;
+            left: 20px;
+            transform: rotate(-15deg);
+        }
+        
+        .book-stack.top-right {
+            top: 20px;
+            right: 20px;
+            transform: rotate(15deg);
+        }
+        
+        .book-stack.bottom-left {
+            bottom: 20px;
+            left: 20px;
+            transform: rotate(15deg);
+        }
+        
+        .book-stack.bottom-right {
+            bottom: 20px;
+            right: 20px;
+            transform: rotate(-15deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="book-corner top-left"></div>
+    <div class="book-corner top-right"></div>
+    <div class="book-corner bottom-left"></div>
+    <div class="book-corner bottom-right"></div>
+    
+    <!-- Book decorations -->
+    <div class="book-decoration" style="top: 10%; left: 5%;">📚</div>
+    <div class="book-decoration" style="top: 20%; right: 8%;">📖</div>
+    <div class="book-decoration" style="bottom: 15%; left: 7%;">📕</div>
+    <div class="book-decoration" style="bottom: 10%; right: 5%;">📘</div>
+    <div class="book-decoration" style="top: 40%; left: 10%;">📙</div>
+    <div class="book-decoration" style="top: 60%; right: 12%;">📗</div>
+    
+    <!-- Welcome screen (Home) -->
+    <div id="homepage" class="container" style="text-align: center; padding: 4rem 2rem;">
+        <div class="welcome-emoji">📚</div>
+        <h2 id="welcome-message">Welcome to My World</h2>
+        <p style="font-size: 1.2rem; max-width: 700px; margin: 0 auto 2rem auto;">
+            Walk with me through pages of passion, purpose, and possibility.
+        </p>
+        <div class="welcome-emoji">🦋</div>
+        <button id="enter-btn" class="welcome-btn">
+            Enter My Story <i class="fas fa-arrow-right"></i>
+        </button>
+    </div>
+    
+    <!-- Main content (initially hidden) -->
+    <div id="main-content" class="hidden">
+        <header>
+            <h1>Venya Velmurugan</h1>
+            <p class="subtitle">📚 Exploring the edges of imagination and logic ✨ </p>
+        </header>
+        
+        <nav>
+            <div class="nav-container">
+                <a href="#about" class="nav-link"><i class="fas fa-user"></i> About</a>
+                <a href="#education" class="nav-link"><i class="fas fa-graduation-cap"></i> Education</a>
+                <a href="#skills" class="nav-link"><i class="fas fa-code"></i> Skills</a>
+                <a href="#analysis" class="nav-link"><i class="fas fa-chart-bar"></i> Text Analysis</a>
+            </div>
+        </nav>
+        
+        <div class="container">
+            <section id="about">
+                <h2><span class="cute-emoji">📖</span> About Me</h2>
+                <div class="profile-container">
+                    <img src="images/venya.jpeg" alt="Venya Velmurugan" class="profile-image">
+                    <div>
+                        <p>Hello! I'm Venya Velmurugan, an undergraduate at IIIT Hyderabad with a deep interest in AI, language, and everything in between. I love exploring how technology can understand and work with human language, and I'm especially fascinated by the possibilities at the intersection of AI and linguistics. Outside the academic world, I’m a trained Bharatanatyam dancer, a certified DELF A2 French learner, a crocheting enthusiast, and an unapologetic bookaholic. I’m always looking to learn something new—whether it’s a language, a dance piece, or a line of code.</p>
+
+                    </div>
+                </div>
+                
+                <h3 class="skill-title"><span class="cute-emoji">🏙️</span> My Birthplace: Coimbatore</h3>
+                
+                <p>
+                    Nestled at the foothills of the Western Ghats, this charming city is known for its gentle climate, temple architecture, lush coconut groves, and textile heritage. Often called the Manchester of South India, Coimbatore blends the calm of tradition with the quiet hum of industry. It's a place where jasmine-scented breezes meet the rhythmic clatter of looms, and where every evening feels like a poem written in golden light.
+                </p>
+
+                <div class="slideshow-container">
+                    <img class="slideshow-slide" src="images/iluvcbe.jpeg" alt="Coimbatore City View">
+                    <img class="slideshow-slide" src="images/isha.jpg" alt="Coimbatore Temple">
+                    <img class="slideshow-slide" src="images/siruvani.jpeg" alt="Coimbatore Nature">
+                    <img class="slideshow-slide" src="images/handloom.jpeg" alt="Coimbatore Landscape">
+                </div>
+            </section>
+            
+            <section id="education">
+                <h2><span class="cute-emoji">🎓</span> Education</h2>
+                
+                <div class="education-item">
+                    <h3>Bachelor of Technology in Computer Science + MS by Research in Computational Linguistics</h3>
+                    <p class="education-date">2024 - 2029</p>
+                    <p>International Institute of Information Technology, Hyderabad (IIIT-H)</p>
+
+                </div>
+                
+                <div class="education-item">
+                    <h3>Schooling</h3>
+                    <p class="education-date">2015 - 2020</p>
+                    <p>Delhi Public School Bangalore East</p>
+                    <p><strong>Achievements:</strong></p>
+                    <ul>
+                        <li>Best Outgoing Student of the Year (2023-24) </li>
+                        <li>School 3rd topper in Grade 12 </li>
+                        <li>District 2nd in Grade 10 </li>
+                        <li>Represented school in district-level quiz competitions</li>
+                    </ul>
+                </div>
+                
+                
+                <a href="https://drive.google.com/uc?export=download&id=1C3wlaD9WYeHvu0RKnL609Zo_ep39KlFS" class="download-cv">Download CV</a>
+            </section>
+            
+            <section id="skills">
+                <h2><span class="cute-emoji">💻</span> Technical Skills</h2>
+                
+                <div class="skill-category">
+                    <h3 class="skill-title">Programming Languages</h3>
+                    <div class="skill-grid">
+                        <div class="skill-item">
+                            <span>JavaScript</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 80%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>Python</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>C</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>C++</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 70%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>SQL</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3 class="skill-title">Web Technologies</h3>
+                    <div class="skill-grid">
+                        <div class="skill-item">
+                            <span>HTML5</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 80%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>CSS</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>React.js</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>Node.js</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 80%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>MongoDB</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 75%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3 class="skill-title">Other Skills</h3>
+                    <div class="skill-grid">
+                        <div class="skill-item">
+                            <span>Git</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>Machine Learning</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 65%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>UI/UX Design</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 80%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="analysis">
+                <h2><span class="cute-emoji">📊</span> Text Analysis Tool</h2>
+                <p>Paste a text (more than 10000 words recommended) into the box below to analyze it:</p>
+                
+                <div class="text-analysis-container">
+                    <textarea id="text-input" placeholder="Paste your text here for analysis..."></textarea>
+                    <button id="analyze-btn" class="analyze-button">Analyze Text</button>
+                    
+                    <div class="result-section">
+                        <h3 class="result-title">Special Symbols Count</h3>
+                        <div id="special-result" class="result-content">
+                          <p>Enter text and press "Analyze Text" to see results.</p>
+                        </div>
+                      </div>
+                      
+                    
+
+                        <div id="text-stats" class="result-content">
+                            <p>Letters: ...</p>
+                            <p>Words: ...</p>
+                            <p>Spaces: ...</p>
+                            <p>Newlines: ...</p>
+                            <p>Special Symbols: ...</p>
+                        </div>
+                        
+                        
+                        <div class="result-section">
+                            <h3 class="result-title">Pronouns Count</h3>
+                            <div id="pronouns-result" class="result-content">
+                                <p>Enter text and press "Analyze Text" to see results.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="result-section">
+                            <h3 class="result-title">Prepositions Count</h3>
+                            <div id="prepositions-result" class="result-content">
+                                <p>Enter text and press "Analyze Text" to see results.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="result-section">
+                            <h3 class="result-title">Indefinite Articles Count</h3>
+                            <div id="articles-result" class="result-content">
+                                <p>Enter text and press "Analyze Text" to see results.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <p>© 2025 Venya Velmurugan | Made with 📚 and 💻</p>
+        </footer>
+    </div>
+
+    
+    
+    <script>
+
+        // Text Analysis Functionality
+        document.getElementById('analyze-btn').addEventListener('click', function () {
+            const text = document.getElementById('text-input').value;
+        
+            // Basic Text Statistics
+            const words = text.trim().split(/\s+/);
+            const wordCount = words.length;
+            const charCount = text.length;
+            const spaceCount = (text.match(/ /g) || []).length;
+            const newlineCount = (text.match(/\n/g) || []).length;
+            const specialChars = text.replace(/[a-zA-Z0-9\s\n]/g, '').split('');
+            const specialCount = specialChars.length;
+        
+            // Tokenization
+            const tokens = text.toLowerCase().split(/\W+/).filter(t => t.length > 0);
+        
+            // Pronouns
+            const pronouns = {
+                'i': 0, 'you': 0, 'he': 0, 'she': 0, 'it': 0, 'we': 0, 'they': 0,
+                'me': 0, 'him': 0, 'her': 0, 'us': 0, 'them': 0, 'my': 0, 'your': 0,
+                'his': 0, 'its': 0, 'our': 0, 'their': 0, 'mine': 0, 'yours': 0, 'hers': 0
+            };
+        
+            // Prepositions
+            const prepositions = {
+                'in': 0, 'on': 0, 'at': 0, 'by': 0, 'for': 0, 'with': 0, 'about': 0,
+                'between': 0, 'into': 0, 'through': 0, 'during': 0, 'before': 0, 'after': 0,
+                'above': 0, 'below': 0, 'to': 0, 'from': 0, 'over': 0, 'under': 0
+            };
+        
+            // Articles
+            const articles = { 'a': 0, 'an': 0 };
+        
+            // Count matches
+            tokens.forEach(token => {
+                const cleanToken = token.replace(/[^a-z]/g, '');
+                if (pronouns.hasOwnProperty(cleanToken)) pronouns[cleanToken]++;
+                if (prepositions.hasOwnProperty(cleanToken)) prepositions[cleanToken]++;
+                if (articles.hasOwnProperty(cleanToken)) articles[cleanToken]++;
+            });
+        
+            // Display Text Stats
+            document.getElementById('text-stats').innerHTML = `
+                <p>Letters: ${charCount - spaceCount - newlineCount - specialCount}</p>
+                <p>Words: ${wordCount}</p>
+                <p>Spaces: ${spaceCount}</p>
+                <p>Newlines: ${newlineCount}</p>
+                <p>Special Symbols: ${specialCount}</p>
+            `;
+        
+            // Display counts for each group
+            const formatCounts = (obj) =>
+                Object.entries(obj)
+                    .filter(([_, v]) => v > 0)
+                    .map(([k, v]) => `${k}: ${v}`)
+                    .join('<br>');
+        
+            document.getElementById('pronouns-result').innerHTML =
+                formatCounts(pronouns) || "No pronouns found";
+        
+            document.getElementById('prepositions-result').innerHTML =
+                formatCounts(prepositions) || "No prepositions found";
+        
+            document.getElementById('articles-result').innerHTML =
+                formatCounts(articles) || "No indefinite articles found";
+        
+            // Display Special Symbols Breakdown
+            const freq = {};
+            specialChars.forEach(ch => {
+                freq[ch] = (freq[ch] || 0) + 1;
+            });
+            const specialBreakdown = Object.entries(freq)
+                .map(([char, count]) => `${char}: ${count}`)
+                .join('<br>');
+        
+            document.getElementById('special-result').innerHTML =
+                specialBreakdown || "No special characters found.";
+        });
+        
+
+        
+        // ... (keep all existing code above)
+    
+        // Initialize the slideshow
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slideshow-slide');
+        
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+        }
+        
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+    
+        // Function to show main content and hide homepage
+        document.addEventListener("DOMContentLoaded", function () {
+            const enterBtn = document.getElementById("enter-btn");
+            const homepage = document.getElementById("homepage");
+            const mainContent = document.getElementById("main-content");
+    
+            enterBtn.addEventListener("click", function () {
+                homepage.style.display = "none";
+                mainContent.classList.remove("hidden");
+                
+                // Start slideshow after content is shown
+                showSlide(0);
+                setInterval(nextSlide, 3000);
+            });
+    
+            // Add smooth scroll to navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    
+        // Event tracking functionality
+function logEvent(eventType, eventObject) {
+    const timestamp = new Date().toISOString();
+    console.log(`${timestamp}, ${eventType}, ${eventObject}`);
+}
+
+// Track all click events
+document.addEventListener('click', function(e) {
+    const target = e.target;
+    let elementType = target.tagName.toLowerCase();
+    
+    switch(target.tagName) {
+        case 'IMG':
+            elementType = 'image';
+            break;
+        case 'SELECT':
+            elementType = 'drop-down';
+            break;
+        case 'A':
+            elementType = 'link';
+            break;
+        case 'BUTTON':
+            elementType = 'button';
+            break;
+        case 'INPUT':
+            elementType = `input-${target.type}`;
+            break;
+        case 'TEXTAREA':
+            elementType = 'textarea';
+            break;
+    }
+    
+    logEvent('click', elementType);
+});
+
+// Track page views for navigation
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        const targetSection = this.getAttribute('href').substring(1);
+        logEvent('view', targetSection);
+    });
+});
+        // ... (keep all existing event tracking code below)
+    </script>
